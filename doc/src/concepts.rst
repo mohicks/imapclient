@@ -120,6 +120,11 @@ certificate used by the IMAP server.
 
 .. literalinclude:: ../../examples/tls_cacert.py
 
+This example shows how to send a client certificate if the server
+requires it.
+
+.. literalinclude:: ../../examples/tls_client_cert.py
+
 If your operating system comes with an outdated list of CA certificates you can
 use the `certifi <https://pypi.python.org/pypi/certifi>`_ package that provides
 an up-to-date set of trusted CAs::

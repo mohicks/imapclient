@@ -28,6 +28,9 @@ def get_config_defaults():
         ssl_check_hostname=True,
         ssl_verify_cert=True,
         ssl_ca_file=None,
+        ssl_client_cert_file=None,
+        ssl_client_key_file=None,
+        ssl_client_key_passwd=None,
         timeout=None,
         starttls=False,
         stream=False,
@@ -96,6 +99,13 @@ def _read_config_section(parser, section):
     if ssl_ca_file:
         ssl_ca_file = path.expanduser(ssl_ca_file)
 
+    ssl_client_cert_file = get("ssl_client_cert_file")
+    if ssl_client_cert_file:
+        ssl_client_cert_file = path.expanduser(ssl_client_cert_file)
+    ssl_client_key_file = get("ssl_client_key_file")
+    if ssl_client_key_file:
+        ssl_client_key_file = path.expanduser(ssl_client_key_file)
+
     return Bunch(
         host=get("host"),
         port=getint("port"),
@@ -104,6 +114,9 @@ def _read_config_section(parser, section):
         ssl_check_hostname=getboolean("ssl_check_hostname"),
         ssl_verify_cert=getboolean("ssl_verify_cert"),
         ssl_ca_file=ssl_ca_file,
+        ssl_client_cert_file=ssl_client_cert_file,
+        ssl_client_key_file=ssl_client_key_file,
+        ssl_client_key_passwd=get("ssl_client_key_passwd"),
         timeout=getfloat("timeout"),
         stream=getboolean("stream"),
         username=get("username"),
@@ -163,6 +176,10 @@ def create_client_from_config(conf, login=True):
             ssl_context.verify_mode = ssl.CERT_NONE
         if conf.ssl_ca_file:
             ssl_context.load_verify_locations(cafile=conf.ssl_ca_file)
+        if conf.ssl_client_cert_file:
+            ssl_context.load_cert_chain(conf.ssl_client_cert_file,
+                                        conf.ssl_client_key_file,
+                                        conf.ssl_client_key_passwd)
 
     client = imapclient.IMAPClient(
         conf.host,

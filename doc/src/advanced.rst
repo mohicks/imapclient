@@ -137,6 +137,9 @@ starttls             bool    Use STARTTLS to connect.
 ssl_check_hostname   bool    If true and SSL is in use, check that certificate matches the hostname (defaults to true)
 ssl_verify_cert      bool    If true and SSL is in use, check that the certifcate is valid (defaults to true).
 ssl_ca_file          string  If SSL is true, use this to specify certificate authority certs to validate with.
+ssl_client_cert_file string  If SSL is true, use this to specify the client certificate to send to the server.
+ssl_client_key_file  string  The matching private key for the client cert, if not included with the certificate.
+ssl_client_key_passwd string The password for the client private key.
 timeout              int     Time out I/O operations after this many seconds.
 oauth2               bool    If true, use OAUTH2 to authenticate (``username`` and ``password`` are ignored).
 oauth2_client_id     string  OAUTH2 client id.
